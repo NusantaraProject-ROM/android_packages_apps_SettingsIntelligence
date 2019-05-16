@@ -32,12 +32,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/search_bar_margin"
-            app:cardCornerRadius="@*android:dimen/config_dialogCornerRadius"
-            app:cardElevation="3dp">
+            app:cardCornerRadius="@dimen/search_bar_corner_radius"
+            app:cardElevation="2dp">
             <Toolbar
                 android:id="@+id/search_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/search_bar_height"
+                android:alpha="0.85"
                 android:background="@color/search_panel"
                 android:contentInsetStart="0dp"
                 android:contentInsetStartWithNavigation="0dp"
