@@ -17,15 +17,15 @@
 
 package com.android.settings.intelligence.search;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.android.settings.intelligence.R;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends FragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class SearchActivity extends Activity {
         // Keeps layouts in-place when keyboard opens.
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.main_content);
         if (fragment == null) {
             fragmentManager.beginTransaction()
