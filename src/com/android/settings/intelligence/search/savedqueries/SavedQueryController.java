@@ -16,13 +16,13 @@
 
 package com.android.settings.intelligence.search.savedqueries;
 
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Loader;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import com.android.settings.intelligence.R;
 import com.android.settings.intelligence.overlay.FeatureFactory;
