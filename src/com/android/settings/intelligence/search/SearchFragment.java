@@ -20,14 +20,14 @@ package com.android.settings.intelligence.search;
 import static com.android.settings.intelligence.nano.SettingsIntelligenceLogProto.SettingsIntelligenceEvent;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Loader;
 import android.os.Bundle;
 import androidx.annotation.VisibleForTesting;
+import androidx.loader.content.Loader;
+import androidx.loader.app.LoaderManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.util.EventLog;
 import android.util.Log;
