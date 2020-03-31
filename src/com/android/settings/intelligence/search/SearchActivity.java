@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.android.settings.intelligence.R;
+import com.android.settings.intelligence.search.car.CarSearchFragment;
 
 public class SearchActivity extends FragmentActivity {
 
