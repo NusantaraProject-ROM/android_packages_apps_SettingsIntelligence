@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,41 +14,44 @@
  * limitations under the License.
  */
 
-package com.android.settings.intelligence.search.savedqueries;
+package com.android.settings.intelligence.search.savedqueries.car;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
-import com.android.settings.intelligence.R;
 import com.android.settings.intelligence.overlay.FeatureFactory;
 import com.android.settings.intelligence.search.SearchCommon;
 import com.android.settings.intelligence.search.SearchFeatureProvider;
 import com.android.settings.intelligence.search.SearchResult;
-import com.android.settings.intelligence.search.SearchResultsAdapter;
+import com.android.settings.intelligence.search.car.CarSearchResultsAdapter;
+import com.android.settings.intelligence.search.savedqueries.SavedQueryRecorder;
+import com.android.settings.intelligence.search.savedqueries.SavedQueryRemover;
 
 import java.util.List;
 
-public class SavedQueryController implements LoaderManager.LoaderCallbacks,
+/**
+ * Helper class for managing saved queries.
+ */
+public class CarSavedQueryController implements LoaderManager.LoaderCallbacks,
         MenuItem.OnMenuItemClickListener {
 
-    // TODO: make a generic background task manager to handle one-off tasks like this one.
     private static final String ARG_QUERY = "remove_query";
-    private static final String TAG = "SearchSavedQueryCtrl";
+    private static final String TAG = "CarSearchSavedQueryCtrl";
 
     private static final int MENU_SEARCH_HISTORY = 1000;
 
     private final Context mContext;
     private final LoaderManager mLoaderManager;
     private final SearchFeatureProvider mSearchFeatureProvider;
-    private final SearchResultsAdapter mResultAdapter;
+    private final CarSearchResultsAdapter mResultAdapter;
 
-    public SavedQueryController(Context context, LoaderManager loaderManager,
-            SearchResultsAdapter resultsAdapter) {
+    public CarSavedQueryController(Context context, LoaderManager loaderManager,
+            CarSearchResultsAdapter resultsAdapter) {
         mContext = context;
         mLoaderManager = loaderManager;
         mResultAdapter = resultsAdapter;
@@ -74,7 +77,7 @@ public class SavedQueryController implements LoaderManager.LoaderCallbacks,
         switch (loader.getId()) {
             case SearchCommon.SearchLoaderId.REMOVE_QUERY_TASK:
                 mLoaderManager.restartLoader(SearchCommon.SearchLoaderId.SAVED_QUERIES,
-                        null /* args */, this /* callback */);
+                        /* args= */ null, /* callback= */ this);
                 break;
             case SearchCommon.SearchLoaderId.SAVED_QUERIES:
                 if (SearchFeatureProvider.DEBUG) {
@@ -98,33 +101,33 @@ public class SavedQueryController implements LoaderManager.LoaderCallbacks,
         return true;
     }
 
-    public void buildMenuItem(Menu menu) {
-        final MenuItem item =
-                menu.add(Menu.NONE, MENU_SEARCH_HISTORY, Menu.NONE, R.string.search_clear_history);
-        item.setOnMenuItemClickListener(this);
-    }
-
+    /**
+     * Save a query to the DB.
+     */
     public void saveQuery(String query) {
-        final Bundle args = new Bundle();
+        Bundle args = new Bundle();
         args.putString(ARG_QUERY, query);
         mLoaderManager.restartLoader(SearchCommon.SearchLoaderId.SAVE_QUERY_TASK, args,
-                this /* callback */);
+                /* callback= */ this);
     }
 
     /**
-     * Remove all saved queries from DB
+     * Remove all saved queries from the DB.
      */
     public void removeQueries() {
-        final Bundle args = new Bundle();
+        Bundle args = new Bundle();
         mLoaderManager.restartLoader(SearchCommon.SearchLoaderId.REMOVE_QUERY_TASK, args,
-                this /* callback */);
+                /* callback= */ this);
     }
 
+    /**
+     * Load the saved queries from the DB.
+     */
     public void loadSavedQueries() {
         if (SearchFeatureProvider.DEBUG) {
             Log.d(TAG, "loading saved queries");
         }
-        mLoaderManager.restartLoader(SearchCommon.SearchLoaderId.SAVED_QUERIES, null /* args */,
-                this /* callback */);
+        mLoaderManager.restartLoader(SearchCommon.SearchLoaderId.SAVED_QUERIES,
+                /* args= */ null, /* callback= */ this);
     }
 }
