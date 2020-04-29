@@ -19,6 +19,7 @@ package com.android.settings.intelligence.search.car;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -49,15 +50,7 @@ public class CarIntentSearchViewHolder extends CarSearchViewHolder {
         } else {
             mIcon.setImageDrawable(result.icon);
         }
-        if (result.breadcrumbs != null && !result.breadcrumbs.isEmpty()) {
-            String breadcrumb = result.breadcrumbs.get(0);
-            int count = result.breadcrumbs.size();
-            for (int i = 1; i < count; i++) {
-                breadcrumb = mContext.getString(R.string.search_breadcrumb_connector,
-                        breadcrumb, result.breadcrumbs.get(i));
-            }
-            mSummary.setText(breadcrumb);
-        }
+        bindBreadcrumbView(result);
 
         itemView.setOnClickListener(v -> {
             fragment.onSearchResultClicked(/* resultViewHolder= */ this, result);
@@ -76,5 +69,24 @@ public class CarIntentSearchViewHolder extends CarSearchViewHolder {
                 }
             }
         });
+    }
+
+    private void bindBreadcrumbView(SearchResult result) {
+        if (result.breadcrumbs == null || result.breadcrumbs.isEmpty()) {
+            mSummary.setVisibility(View.GONE);
+            return;
+        }
+        String breadcrumb = result.breadcrumbs.get(0);
+        int count = result.breadcrumbs.size();
+        for (int i = 1; i < count; i++) {
+            breadcrumb = mContext.getString(R.string.search_breadcrumb_connector,
+                    breadcrumb, result.breadcrumbs.get(i));
+        }
+        if (breadcrumb == null || TextUtils.isEmpty(breadcrumb.trim())) {
+            mSummary.setVisibility(View.GONE);
+        } else {
+            mSummary.setText(breadcrumb);
+            mSummary.setVisibility(View.VISIBLE);
+        }
     }
 }
