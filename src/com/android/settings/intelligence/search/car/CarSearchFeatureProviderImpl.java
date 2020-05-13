@@ -29,6 +29,7 @@ import com.android.settings.intelligence.search.SearchResultLoader;
 import com.android.settings.intelligence.search.indexing.DatabaseIndexingManager;
 import com.android.settings.intelligence.search.indexing.IndexData;
 import com.android.settings.intelligence.search.indexing.IndexingCallback;
+import com.android.settings.intelligence.search.indexing.car.CarDatabaseIndexingManager;
 import com.android.settings.intelligence.search.query.DatabaseResultTask;
 import com.android.settings.intelligence.search.query.InstalledAppResultTask;
 import com.android.settings.intelligence.search.query.SearchQueryTask;
@@ -49,7 +50,7 @@ public class CarSearchFeatureProviderImpl implements SearchFeatureProvider {
     private static final String TAG = "CarSearchFeatureProvider";
     private static final long SMART_SEARCH_RANKING_TIMEOUT = 300L;
 
-    private DatabaseIndexingManager mDatabaseIndexingManager;
+    private CarDatabaseIndexingManager mDatabaseIndexingManager;
     private ExecutorService mExecutorService;
     private SiteMapManager mSiteMapManager;
 
@@ -75,7 +76,8 @@ public class CarSearchFeatureProviderImpl implements SearchFeatureProvider {
     @Override
     public DatabaseIndexingManager getIndexingManager(Context context) {
         if (mDatabaseIndexingManager == null) {
-            mDatabaseIndexingManager = new DatabaseIndexingManager(context.getApplicationContext());
+            mDatabaseIndexingManager = new CarDatabaseIndexingManager(
+                    context.getApplicationContext());
         }
         return mDatabaseIndexingManager;
     }
