@@ -32,10 +32,10 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.car.ui.preference.PreferenceFragment;
-import com.android.car.ui.toolbar.ToolbarController;
-import com.android.settings.intelligence.R;
 import com.android.car.ui.toolbar.MenuItem;
 import com.android.car.ui.toolbar.Toolbar;
+import com.android.car.ui.toolbar.ToolbarController;
+import com.android.settings.intelligence.R;
 import com.android.settings.intelligence.overlay.FeatureFactory;
 import com.android.settings.intelligence.search.SearchCommon;
 import com.android.settings.intelligence.search.SearchFeatureProvider;
@@ -44,7 +44,6 @@ import com.android.settings.intelligence.search.indexing.IndexingCallback;
 import com.android.settings.intelligence.search.savedqueries.car.CarSavedQueryController;
 import com.android.settings.intelligence.search.savedqueries.car.CarSavedQueryViewHolder;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -56,7 +55,6 @@ public class CarSearchFragment extends PreferenceFragment implements
     private SearchFeatureProvider mSearchFeatureProvider;
 
     private ToolbarController mToolbar;
-    private MenuItem mClearHistoryButton;
     private RecyclerView mRecyclerView;
 
     private String mQuery;
@@ -85,7 +83,7 @@ public class CarSearchFragment extends PreferenceFragment implements
     }
 
     protected List<MenuItem> getToolbarMenuItems() {
-        return Collections.singletonList(mClearHistoryButton);
+        return null;
     }
 
     @Override
@@ -97,12 +95,6 @@ public class CarSearchFragment extends PreferenceFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mClearHistoryButton = new MenuItem.Builder(getContext())
-                .setTitle(R.string.search_clear_history)
-                .setDisplayBehavior(MenuItem.DisplayBehavior.NEVER)
-                .setOnClickListener(i -> onClearHistoryButtonClicked())
-                .build();
 
         if (savedInstanceState != null) {
             mQuery = savedInstanceState.getString(SearchCommon.STATE_QUERY);
@@ -188,10 +180,6 @@ public class CarSearchFragment extends PreferenceFragment implements
         if (!TextUtils.isEmpty(mQuery)) {
             mSavedQueryController.saveQuery(mQuery);
         }
-    }
-
-    private void onClearHistoryButtonClicked() {
-        mSavedQueryController.removeQueries();
     }
 
     /**
