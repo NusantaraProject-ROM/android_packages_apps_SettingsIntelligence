@@ -158,11 +158,7 @@ public class CarSearchFragment extends PreferenceFragment implements
 
         // If indexing is not finished, register the query text, but don't search.
         if (!mSearchFeatureProvider.isIndexingComplete(getActivity())) {
-            if (!isEmptyQuery) {
-                mToolbar.showProgressBar();
-            } else {
-                mToolbar.hideProgressBar();
-            }
+            mToolbar.getProgressBar().setVisible(!isEmptyQuery);
             return;
         }
 
@@ -228,7 +224,7 @@ public class CarSearchFragment extends PreferenceFragment implements
         if (getActivity() == null) {
             return;
         }
-        mToolbar.hideProgressBar();
+        mToolbar.getProgressBar().setVisible(false);
         if (mShowingSavedQuery) {
             mSavedQueryController.loadSavedQueries();
         } else {
