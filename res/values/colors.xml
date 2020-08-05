@@ -19,5 +19,4 @@
     <color name="launcher_background_color">#ff008577</color>
 
     <color name="search_panel_background">@android:color/white</color>
-    <color name="search_panel">@android:color/white</color>
 </resources>
